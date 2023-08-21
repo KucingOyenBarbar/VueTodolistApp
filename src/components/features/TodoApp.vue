@@ -23,23 +23,15 @@
         </div>
         <!-- Todo: Add Todolist Item -->
         <TodoList
-          :todos="
-            todos
-              .filter((todo) =>
-                todo.task.toLowerCase().includes(searchValues.toLowerCase())
-              )
-              .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
-          "
+          :todos="todos.sort((a, b) => b.createdAt.localeCompare(a.createdAt))"
         />
-
-        {{ JSON.stringify(items) }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { onUpdated, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import { initialData } from "@/utils/data/initialData";
 import HeadingTitle from "../shared/HeadingTitle.vue";
 import TodoAdd from "./TodoAdd.vue";
@@ -50,22 +42,8 @@ export default {
   setup() {
     const todos = reactive(initialData);
     const searchValues = ref("");
-    let items = null;
 
-    onUpdated(() => {
-      if (searchValues.value) {
-        items = todos?.filter((todo) => {
-          return todo.task
-            .toLowerCase()
-            .includes(searchValues.value.toLowerCase());
-        });
-
-        // return items
-        console.log({ items });
-      }
-    });
-
-    return { todos, searchValues, items };
+    return { todos, searchValues };
   },
 };
 </script>
