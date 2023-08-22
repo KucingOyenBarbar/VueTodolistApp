@@ -3,11 +3,13 @@
     <div class="col">
       <div class="mb-3">
         <input
-          v-model="searchValues"
+          v-model="inputValue"
+          @input="updateInputValue"
           type="text"
           class="form-control"
           id="search"
-          placeholder="Cari Kegiatan..."
+          :placeholder="title"
+          :aria-label="title"
         />
       </div>
     </div>
@@ -15,9 +17,22 @@
 </template>
 
 <script>
+import { ref } from "vue";
+// Define emits
 export default {
   name: "TodoSearchItem",
-  props: ["searchValues"],
+  emits: ["inputValues"],
+  props: ["title"],
+  setup(_, { emit }) {
+    const inputValue = ref("");
+
+    const updateInputValue = (event) => {
+      inputValue.value = event.target.value;
+      emit("inputValues", inputValue.value);
+    };
+
+    return { updateInputValue, inputValue };
+  },
 };
 </script>
 

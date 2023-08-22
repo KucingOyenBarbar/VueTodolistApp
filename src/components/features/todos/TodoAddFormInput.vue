@@ -1,10 +1,11 @@
 <template>
   <div class="row justify-content-start g-2 py-3">
     <div class="col">
-      <form @submit.prevent="saveTodos">
+      <form @submit.prevent="submitTodos">
         <div class="input-group mb-3">
           <input
             v-model="task"
+            @input="updateTaskValue"
             type="text"
             class="form-control text-start text-white fst-medium fs-5 px-0 mx-0"
             placeholder="Tuliskan Kegiatan..."
@@ -33,35 +34,24 @@
 </template>
 
 <script>
-import { nanoid } from "nanoid";
 import { ref } from "vue";
 
 export default {
-  name: "TodoAdd",
-  props: ["todos"],
-  setup(props) {
-    const { todos } = props;
+  name: "TodoAddFormInput",
+  emits: ["saveTodos"],
+  setup(_, { emit }) {
     const task = ref("");
 
-    const saveTodos = ref(() => {
-      if (Boolean(task.value.length)) {
-        const newTodos = {
-          id: nanoid(16),
-          task: task.value,
-          completed: false,
-          createdAt: new Date().toISOString(),
-          updatedAt: null,
-        };
+    const updateTaskValue = (event) => {
+      task.value = event.target.value;
+    };
 
-        todos.push(newTodos);
+    const submitTodos = () => {
+      emit("saveTodos", task.value);
+      task.value = "";
+    };
 
-        task.value = null;
-      }
-
-      return null;
-    });
-
-    return { todos, task, saveTodos };
+    return { task, updateTaskValue, submitTodos };
   },
 };
 </script>

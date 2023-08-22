@@ -1,19 +1,9 @@
 <template>
   <Navbar :brand="'Todo List'" />
-  <TodoApp />
+  <TodoIndex />
 </template>
 
-<script>
+<script setup>
 import Navbar from "./components/shared/Navbar.vue";
-import TodoApp from "./components/features/TodoApp.vue";
-
-export default {
-  name: "App",
-  components: {
-    Navbar,
-    TodoApp,
-  },
-};
+import TodoIndex from "./views/Index.vue";
 </script>
-
-<style scoped></style>
