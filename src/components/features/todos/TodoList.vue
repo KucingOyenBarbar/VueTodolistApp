@@ -28,14 +28,14 @@
                 {{ displayTaskTodo(todo.task) }}
               </h5>
               <span class="card-subtitle text-muted">
-                {{ showFormatedDate(todo.createdAt) }}
+                {{ useFormatDate(todo.createdAt) }}
               </span>
             </div>
 
             <div>
               <div class="hstack gap-2">
                 <button
-                  @click="deleteTodo(todo.id)"
+                  @click="deleteTodo(index)"
                   title="Hapus Kegiatan"
                   type="button"
                   class="btn btn-danger btn-md rounded"
@@ -101,15 +101,10 @@
 <script setup>
 import { ref } from "vue";
 import TodoListIsEmpty from "./TodoListIsEmpty.vue";
+import { useFormatDate } from "../../../composable/useFormatDate";
 
 const props = defineProps(["todos"]);
-
-const showFormatedDate = ref((timestamps) => {
-  return new Date(timestamps).toLocaleDateString("id-ID", {
-    timeZone: "Asia/Jakarta",
-    dateStyle: "full",
-  });
-});
+const emits = defineEmits(["deleteTodo"]);
 
 const displayTaskTodo = ref((task) => {
   return task.length > 50 ? `${task.substring(0, 50)}...` : task;
@@ -127,13 +122,9 @@ const unCompletedTodo = ref((todoId) => {
   items.updatedAt = new Date().toISOString();
 });
 
-const deleteTodo = ref((todoId) => {
-  const items = props.todos?.filter((item) => {
-    return item.id !== todoId;
-  });
-
-  return items;
-});
+const deleteTodo = (index) => {
+  emits("deleteTodo", index);
+};
 </script>
 
 <style></style>

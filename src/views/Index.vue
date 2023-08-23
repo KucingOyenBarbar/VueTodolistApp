@@ -8,7 +8,9 @@
           title="Cari Daftar Kegiatan..."
           @inputValues="handleSearchValues"
         />
+
         <TodoList
+          @delete-todo="deleteTodo"
           :todos="
             todos
               .filter((item) => {
@@ -25,7 +27,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, onUpdated, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import { nanoid } from "nanoid";
 import { initialData } from "@/utils/data/initialData";
 import HeadingTitle from "@/components/shared/HeadingTitle.vue";
@@ -46,15 +48,17 @@ const addTodoHandler = (value) => {
       createdAt: new Date().toISOString(),
       updatedAt: null,
     };
-
     todos.push(newTodos);
   }
-
   return null;
 };
 
 const handleSearchValues = (value) => {
   searchValues.value = value;
+};
+
+const deleteTodo = (value) => {
+  return todos?.splice(value, 1);
 };
 </script>
 
