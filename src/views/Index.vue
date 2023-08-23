@@ -12,13 +12,12 @@
         <TodoList
           @delete-todo="deleteTodo"
           :todos="
-            todos
-              .filter((item) => {
-                return item.task
-                  .toLowerCase()
-                  .includes(searchValues.toLowerCase());
-              })
-              .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+            todos.filter((item) => {
+              return item.task
+                .toLowerCase()
+                .includes(searchValues.toLowerCase());
+            })
+            // .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
           "
         />
       </div>
